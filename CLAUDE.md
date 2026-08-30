@@ -121,6 +121,14 @@ python -m http.server 8000
 # http://localhost:8000
 ```
 
+## 배포 (GitHub Pages)
+
+- 저장소: `cskwon81/cskwon81.github.io`, `main` 브랜치 루트를 그대로 서빙한다. `main` 에 푸시하면 1~2분 뒤 반영된다.
+- **루트의 `.nojekyll` 을 지우지 말 것.** 이 파일이 없으면 GitHub Pages 가 Jekyll 로 사이트를 빌드하면서
+  `posts/*.md` 를 HTML 로 변환해 버리고, 원본 `.md` 는 404 가 된다. 이 블로그는 `.md` 원본을 fetch 하므로
+  글 본문이 전부 열리지 않는다. 로컬 서버에서는 멀쩡히 동작해 놓치기 쉽다.
+- 배포 후에는 로컬뿐 아니라 실제 주소에서도 글 상세 페이지를 한 번 열어 확인한다.
+
 ## 글 추가 절차
 
 1. `posts/<slug>.md` 생성, 프론트매터 작성.

@@ -1,15 +1,21 @@
 /* ── 디자인 토큰 ───────────────────────────────────────── */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --bg: #fbfbf9;
-  --bg-subtle: #f2f2ee;
-  --surface: #ffffff;
-  --text: #23211e;
-  --text-muted: #6b6862;
-  --border: #e3e1db;
-  --accent: #b0522a;
-  --code-bg: #f4f2ed;
+  --bg: #05060a;
+  --bg-subtle: #0b0e15;
+  --surface: #0a0d13;
+  --border: #1b2231;
+  --border-bright: #2c3a52;
+
+  /* 본문은 네온 계열이되 채도를 낮춰 장문에서 눈이 덜 피로하게 한다. */
+  --text: #cbe9e2;
+  --text-muted: #8aa5a0;
+
+  --neon: #2ff3d0;
+  --neon-2: #ff4fd8;
+  --neon-3: #b8ff3c;
+  --neon-dim: rgba(47, 243, 208, 0.14);
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo",
                "Malgun Gothic", "Segoe UI", sans-serif;
@@ -17,36 +23,20 @@
 
   --measure: 68ch;
   --page: 46rem;
+  --wide: 64rem;
   --gutter: 1.25rem;
-  --radius: 8px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #171614;
-    --bg-subtle: #1f1e1b;
-    --surface: #1f1e1b;
-    --text: #e8e6e1;
-    --text-muted: #a09c94;
-    --border: #33312d;
-    --accent: #e08b5f;
-    --code-bg: #232220;
-  }
+  --radius: 4px;
 }
 
 /* ── 리셋 ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
-body, h1, h2, h3, h4, p, ul, ol, figure, blockquote, pre {
-  margin: 0;
-}
+body, h1, h2, h3, h4, p, ul, ol, figure, blockquote, pre { margin: 0; }
 
 img, video { max-width: 100%; height: auto; display: block; }
 
 /* ── 기본 타이포그래피 ─────────────────────────────────── */
-html {
-  -webkit-text-size-adjust: 100%;
-}
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   background: var(--bg);
@@ -58,58 +48,95 @@ body {
   overflow-wrap: break-word;
 }
 
+/* 상단에서 아래로 옅게 퍼지는 발광. 고정 배경이라 스크롤 비용이 없다. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 28rem at 15% -8%, rgba(47, 243, 208, 0.10), transparent 70%),
+    radial-gradient(45rem 24rem at 95% 0%, rgba(255, 79, 216, 0.07), transparent 70%);
+}
+
 a {
-  color: var(--accent);
+  color: var(--neon);
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--neon);
+  outline-offset: 3px;
   border-radius: 2px;
 }
 
 code, pre, kbd { font-family: var(--font-mono); }
 
-/* ── 본문(마크다운 변환 결과) ──────────────────────────── */
-.prose {
-  max-width: var(--measure);
+/* 라벨·메타처럼 짧은 정보는 모노스페이스로 본문과 구분한다. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
+
+/* ── 본문(마크다운 변환 결과) ──────────────────────────── */
+.prose { max-width: var(--measure); }
 
 .prose > * + * { margin-top: 1.25em; }
 
-.prose h2,
-.prose h3,
-.prose h4 {
-  line-height: 1.35;
+.prose h2, .prose h3, .prose h4 {
+  line-height: 1.3;
   margin-top: 2.25em;
   letter-spacing: -0.01em;
+  color: #eafff9;
 }
 
-.prose h2 { font-size: 1.5rem; }
-.prose h3 { font-size: 1.2rem; }
+.prose h2 {
+  font-size: 1.5rem;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose h2::before {
+  content: "# ";
+  color: var(--neon);
+  font-family: var(--font-mono);
+}
+
+.prose h3 { font-size: 1.2rem; color: var(--neon); }
 .prose h4 { font-size: 1.0625rem; }
+
+.prose a { text-decoration: underline; }
+.prose strong { color: #eafff9; }
+.prose em { color: var(--neon-3); font-style: normal; }
 
 .prose ul, .prose ol { padding-left: 1.35em; }
 .prose li + li { margin-top: 0.35em; }
+.prose li::marker { color: var(--neon); }
 
 .prose blockquote {
-  border-left: 3px solid var(--border);
-  padding-left: 1em;
+  border-left: 2px solid var(--neon-2);
+  background: var(--bg-subtle);
+  padding: 0.75em 1em;
   color: var(--text-muted);
 }
 
 .prose code {
-  background: var(--code-bg);
-  border-radius: 4px;
-  padding: 0.15em 0.4em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.1em 0.4em;
   font-size: 0.9em;
+  color: var(--neon-3);
 }
 
 .prose pre {
-  background: var(--code-bg);
+  background: var(--bg-subtle);
   border: 1px solid var(--border);
+  border-left: 2px solid var(--neon);
   border-radius: var(--radius);
   padding: 1rem;
   overflow-x: auto;
@@ -119,18 +146,26 @@ code, pre, kbd { font-family: var(--font-mono); }
 
 .prose pre code {
   background: none;
+  border: 0;
   padding: 0;
   font-size: inherit;
+  color: var(--text);
 }
 
 .prose hr {
   border: 0;
-  border-top: 1px solid var(--border);
+  height: 1px;
   margin-top: 2.5em;
+  background: linear-gradient(90deg, var(--neon), var(--neon-2), transparent);
+  opacity: 0.5;
 }
 
 /* 넓은 표는 본문이 아니라 표 자신이 가로 스크롤한다. */
-.prose .table-scroll { overflow-x: auto; }
+.prose .table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
 
 .prose table {
   border-collapse: collapse;
@@ -145,9 +180,16 @@ code, pre, kbd { font-family: var(--font-mono); }
   white-space: nowrap;
 }
 
-.prose th { background: var(--bg-subtle); font-weight: 600; }
+.prose th {
+  background: var(--bg-subtle);
+  color: var(--neon);
+  font-weight: 600;
+}
+
+.prose tr:last-child td { border-bottom: 0; }
 
 .prose img {
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   margin-inline: auto;
 }

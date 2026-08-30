@@ -5,26 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>my-blog</title>
   <meta name="description" content="마크다운으로 쓰는 블로그">
+  <meta name="theme-color" content="#05060a">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
-  <header class="site-header">
-    <div class="container">
-      <a class="site-title" href="index.html">my-blog</a>
-      <p class="site-tagline">마크다운으로 쓰는 기록</p>
+  <header class="site-bar">
+    <div class="container container-wide bar-inner">
+      <a class="site-mark" href="index.html">my-blog</a>
+      <nav class="site-nav">
+        <a href="index.html">글</a>
+        <a href="https://github.com/cskwon81/cskwon81.github.io">GitHub</a>
+      </nav>
     </div>
   </header>
 
-  <main id="main" class="container">
-    <p id="status" class="status" role="status">글을 불러오는 중…</p>
-    <ul id="post-list" class="post-list"></ul>
+  <main id="main">
+    <section class="hero container container-wide">
+      <p class="hero-kicker mono">// 마크다운으로 쓰는 기록</p>
+      <h1 class="hero-title">읽고, 쓰고,<br><span class="accent">남긴다</span></h1>
+      <p class="hero-sub">프레임워크도 빌드도 없이, 텍스트 파일 하나가 글 하나가 되는 블로그.</p>
+    </section>
+
+    <div class="container container-wide">
+      <div class="section-head">
+        <h2 class="section-label mono">최근 글</h2>
+      </div>
+      <p id="status" class="status" role="status">글을 불러오는 중…</p>
+      <ul id="post-list" class="post-list"></ul>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <div class="container">© 2026 my-blog</div>
+    <div class="container container-wide">© 2026 my-blog</div>
   </footer>
 
   <script type="module" src="js/list.js"></script>

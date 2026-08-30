@@ -12,77 +12,178 @@ body {
   padding-inline: var(--gutter);
 }
 
-main.container {
-  flex: 1;
-  padding-block: 2.5rem 4rem;
-}
+.container-wide { max-width: var(--wide); }
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-}
+main { flex: 1; padding-bottom: 5rem; }
+
+.skip-link { position: absolute; left: -9999px; }
 
 .skip-link:focus {
   left: var(--gutter);
   top: var(--gutter);
-  z-index: 10;
+  z-index: 20;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--neon);
   border-radius: var(--radius);
   padding: 0.5rem 0.9rem;
 }
 
-/* ── 헤더 · 푸터 ──────────────────────────────────────── */
-.site-header {
+/* ── 상단 바 ──────────────────────────────────────────── */
+.site-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(5, 6, 10, 0.82);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  padding-block: 1.5rem;
 }
 
-.site-title {
-  display: inline-block;
+.bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 56px;
+}
+
+.site-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   min-height: 44px;
-  line-height: 44px;
   color: var(--text);
-  font-size: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   text-decoration: none;
 }
 
-.site-tagline {
-  color: var(--text-muted);
-  font-size: 0.9375rem;
+.site-mark::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
 }
 
-.site-footer {
-  border-top: 1px solid var(--border);
-  padding-block: 1.5rem;
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.site-nav a:hover { color: var(--neon); }
+
+/* ── 히어로 ───────────────────────────────────────────── */
+.hero {
+  padding-block: 3.5rem 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-kicker { color: var(--neon-2); margin-bottom: 1rem; }
+
+.hero-title {
+  font-size: clamp(2.25rem, 11vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #eafff9;
+  text-shadow: 0 0 28px rgba(47, 243, 208, 0.35);
+}
+
+.hero-title .accent { color: var(--neon); }
+
+.hero-sub {
+  margin-top: 1.25rem;
+  color: var(--text-muted);
+  max-width: 40ch;
+}
+
+/* ── 섹션 라벨 ────────────────────────────────────────── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 2.5rem 1.5rem;
+}
+
+.section-label { color: var(--neon); font-weight: 400; }
+
+.section-head::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* ── 상태 메시지 ──────────────────────────────────────── */
 .status {
   color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
   padding-block: 1rem;
 }
 
-.status[data-state="error"] { color: var(--accent); }
+.status::before { content: "> "; color: var(--neon); }
+.status[data-state="error"] { color: var(--neon-2); }
+.status[data-state="error"]::before { color: var(--neon-2); }
 
 /* ── 글 목록 ──────────────────────────────────────────── */
 .post-list {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2.25rem;
+  margin: 0;
+  counter-reset: post;
+  display: grid;
+  gap: 1rem;
+}
+
+.post-list > li { counter-increment: post; }
+
+.post-card {
+  position: relative;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem 1.25rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+/* 번호는 장식이라 JS 로 넣지 않고 CSS 카운터로 그린다. */
+.post-card::before {
+  content: counter(post, decimal-leading-zero);
+  position: absolute;
+  top: 1.5rem;
+  right: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--border-bright);
+}
+
+.post-card:hover {
+  border-color: var(--neon);
+  box-shadow: 0 0 0 1px var(--neon-dim), 0 0 24px -8px var(--neon);
+  transform: translateY(-2px);
 }
 
 .post-card-title {
-  font-size: 1.3125rem;
-  line-height: 1.4;
+  font-size: 1.25rem;
+  line-height: 1.35;
   letter-spacing: -0.01em;
-  margin-bottom: 0.35rem;
+  padding-right: 2.5rem;
 }
 
 .post-card-title a {
@@ -90,26 +191,34 @@ main.container {
   text-decoration: none;
 }
 
-.post-card-title a:hover {
-  color: var(--accent);
-  text-decoration: underline;
+/* 카드 전체를 누를 수 있게 링크 영역을 카드로 넓힌다. */
+.post-card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
+
+.post-card:hover .post-card-title a { color: var(--neon); }
 
 .post-summary {
   color: var(--text-muted);
-  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  margin-top: 0.6rem;
 }
 
 .post-meta {
-  color: var(--text-muted);
-  font-size: 0.875rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
 }
 
-.post-meta .dot { opacity: 0.5; }
+.post-meta .dot { color: var(--neon); }
 
 .tag-list {
   list-style: none;
@@ -117,50 +226,75 @@ main.container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
 
 .tag {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-bright);
   border-radius: 999px;
-  padding: 0.15rem 0.6rem;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
+  padding: 0.1rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--neon-3);
 }
 
 /* ── 글 상세 ──────────────────────────────────────────── */
+.post-page { padding-top: 3rem; }
+
 .post-header {
   margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .post-title {
-  font-size: 1.875rem;
-  line-height: 1.3;
+  font-size: clamp(1.875rem, 8vw, 2.375rem);
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  margin-bottom: 0.6rem;
+  color: #eafff9;
+  margin-bottom: 0.9rem;
+  text-shadow: 0 0 30px rgba(47, 243, 208, 0.25);
 }
+
+.post-header .post-meta { margin-top: 0; }
 
 .post-nav {
   margin-top: 4rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
-  font-size: 0.9375rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.post-nav a { text-decoration: none; }
+.post-nav a:hover { text-decoration: underline; }
+
+/* ── 푸터 ─────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 2rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
 }
 
 /* ── 반응형 ───────────────────────────────────────────── */
 @media (min-width: 640px) {
   :root { --gutter: 2rem; }
 
-  main.container { padding-block: 3.5rem 5rem; }
+  .hero { padding-block: 5rem 4rem; }
+  .hero-title { font-size: clamp(3rem, 7vw, 4rem); }
 
-  .post-title { font-size: 2.25rem; }
-  .post-card-title { font-size: 1.4375rem; }
+  .post-list { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .post-card { padding: 1.75rem 1.5rem 1.5rem; }
+
+  .post-page { padding-top: 4rem; }
 
   /* 좁은 화면에서는 줄바꿈이 낫지만, 넓어지면 표는 그대로 편다. */
   .prose th, .prose td { white-space: normal; }
 }
 
 @media (min-width: 960px) {
-  .site-header { padding-block: 2rem; }
+  .hero { padding-block: 7rem 5rem; }
 }

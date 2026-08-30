@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>my-blog</title>
+  <meta name="theme-color" content="#05060a">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
@@ -12,20 +13,23 @@
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
-  <header class="site-header">
-    <div class="container">
-      <a class="site-title" href="index.html">my-blog</a>
+  <header class="site-bar">
+    <div class="container container-wide bar-inner">
+      <a class="site-mark" href="index.html">my-blog</a>
+      <nav class="site-nav">
+        <a href="index.html">← 목록</a>
+      </nav>
     </div>
   </header>
 
-  <main id="main" class="container">
+  <main id="main" class="container post-page">
     <p id="status" class="status" role="status">글을 불러오는 중…</p>
     <article id="post" class="post" hidden></article>
     <p class="post-nav"><a href="index.html">← 목록으로</a></p>
   </main>
 
   <footer class="site-footer">
-    <div class="container">© 2026 my-blog</div>
+    <div class="container container-wide">© 2026 my-blog</div>
   </footer>
 
   <script type="module" src="js/post.js"></script>
